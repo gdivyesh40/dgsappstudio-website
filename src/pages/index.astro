@@ -68,26 +68,6 @@ const technologies = [
   'Firebase',
 ];
 
-const testimonials = [
-  {
-    quote:
-      'Exactly the kind of calm, focused app I have been looking for. It does one thing and does it beautifully.',
-    name: 'Early beta tester',
-    role: 'Dharma Path',
-  },
-  {
-    quote:
-      'Fast, clean and works offline on my commute. You can tell real care went into the details.',
-    name: 'Community feedback',
-    role: 'Preview program',
-  },
-  {
-    quote:
-      'Finally a studio that treats a simple utility app like a premium product. Looking forward to what is next.',
-    name: 'Play Store follower',
-    role: 'DGS App Studio',
-  },
-];
 ---
 
 <BaseLayout title={SITE.name} description={SITE.description}>
@@ -275,36 +255,6 @@ const testimonials = [
           <span class="rounded-full border border-app bg-[var(--bg)] px-4 py-2 text-sm font-medium text-muted shadow-soft">
             {t}
           </span>
-        ))
-      }
-    </div>
-  </Section>
-
-  <!-- Testimonials placeholder -->
-  <Section
-    eyebrow="What people say"
-    title="Early words from our community"
-    subtitle="Placeholder testimonials from our preview program — real reviews will appear here after launch."
-  >
-    <div class="grid gap-5 md:grid-cols-3">
-      {
-        testimonials.map((t) => (
-          <figure class="reveal surface-card flex flex-col p-6">
-            <div class="flex gap-1 text-brand-500" aria-hidden="true">
-              {Array.from({ length: 5 }).map(() => (
-                <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M12 3l2.4 5.9L20 11l-5.6 2.1L12 19l-2.4-5.9L4 11l5.6-2.1L12 3z" />
-                </svg>
-              ))}
-            </div>
-            <blockquote class="mt-4 flex-1 text-sm leading-relaxed text-muted">
-              “{t.quote}”
-            </blockquote>
-            <figcaption class="mt-5 border-t border-app pt-4">
-              <p class="text-sm font-semibold">{t.name}</p>
-              <p class="text-xs text-muted">{t.role}</p>
-            </figcaption>
-          </figure>
         ))
       }
     </div>
