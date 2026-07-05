@@ -1,0 +1,19 @@
+{
+  "name": "DGS App Studio",
+  "short_name": "DGS Studio",
+  "description": "Building beautiful, reliable mobile experiences for Android — and soon iOS.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#FFFFFF",
+  "theme_color": "#D97706",
+  "categories": ["productivity", "lifestyle", "utilities"],
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

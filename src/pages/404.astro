@@ -1,0 +1,46 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Button from '../components/Button.astro';
+---
+
+<BaseLayout title="Page not found" description="The page you are looking for could not be found." noindex>
+  <section class="relative flex min-h-[70vh] items-center overflow-hidden">
+    <div class="pointer-events-none absolute inset-0 bg-grid" aria-hidden="true"></div>
+    <div
+      class="pointer-events-none absolute left-1/2 top-1/4 -z-10 h-80 w-80 -translate-x-1/2 rounded-full bg-brand-500/20 blur-3xl"
+      aria-hidden="true"
+    >
+    </div>
+
+    <div class="container-page relative text-center">
+      <div class="mx-auto mb-8 w-full max-w-xs animate-float">
+        <svg viewBox="0 0 240 140" class="h-auto w-full" role="img" aria-label="404 illustration">
+          <defs>
+            <linearGradient id="g404" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#F59E0B" />
+              <stop offset="1" stop-color="#D97706" />
+            </linearGradient>
+          </defs>
+          <text
+            x="120"
+            y="105"
+            text-anchor="middle"
+            font-family="Inter, sans-serif"
+            font-size="120"
+            font-weight="700"
+            fill="url(#g404)"
+          >404</text>
+        </svg>
+      </div>
+
+      <h1 class="text-3xl font-bold tracking-tight sm:text-4xl">This page wandered off</h1>
+      <p class="mx-auto mt-4 max-w-md text-lg text-muted">
+        The page you are looking for does not exist or may have moved. Let's get you back on track.
+      </p>
+      <div class="mt-8 flex flex-wrap justify-center gap-3">
+        <Button href="/" size="lg">Return home</Button>
+        <Button href="/apps" size="lg" variant="secondary">Browse apps</Button>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,28 @@
+---
+/** Icon + title + description card used across the site. */
+interface Props {
+  title: string;
+  description: string;
+  /** SVG path data on a 24x24 viewBox. */
+  icon: string;
+  class?: string;
+}
+const { title, description, icon, class: className = '' } = Astro.props;
+---
+
+<div
+  class:list={[
+    'reveal surface-card group p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-soft-lg',
+    className,
+  ]}
+>
+  <div
+    class="mb-4 grid h-11 w-11 place-items-center rounded-xl bg-brand-500/10 text-brand transition-colors group-hover:bg-brand-500 group-hover:text-white dark:text-brand-400"
+  >
+    <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d={icon} stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" />
+    </svg>
+  </div>
+  <h3 class="text-base font-semibold">{title}</h3>
+  <p class="mt-2 text-sm leading-relaxed text-muted">{description}</p>
+</div>

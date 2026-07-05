@@ -1,0 +1,314 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Section from '../components/Section.astro';
+import FeatureCard from '../components/FeatureCard.astro';
+import AppCard from '../components/AppCard.astro';
+import Button from '../components/Button.astro';
+import Cta from '../components/Cta.astro';
+import { getFeaturedApp } from '../lib/apps';
+import { SITE } from '../consts';
+
+// The collection always has at least one app, so this is non-null in practice.
+const featuredApp = (await getFeaturedApp())!;
+
+const features = [
+  {
+    title: 'Thoughtful design',
+    description:
+      'Every screen is crafted for clarity — generous spacing, calm color and interactions that feel effortless.',
+    icon: 'M4 16l4.5-9L13 16m-7-2h6m4-6v10m0 0l3-3m-3 3l-3-3',
+  },
+  {
+    title: 'Fast & lightweight',
+    description:
+      'Native-feeling performance with small download sizes. Our apps respect your device and your data.',
+    icon: 'M13 2L3 14h7l-1 8 10-12h-7l1-8z',
+  },
+  {
+    title: 'Offline-first',
+    description:
+      'Core features keep working without a connection, so the apps are dependable wherever you are.',
+    icon: 'M3 15a4 4 0 004 4h9a5 5 0 001-9.9A6 6 0 004.2 9.2 4 4 0 003 15z',
+  },
+  {
+    title: 'Privacy respecting',
+    description:
+      'We collect the minimum needed to run the app and are transparent about it in every privacy policy.',
+    icon: 'M12 3l7 3v6c0 4.5-3 7.6-7 9-4-1.4-7-4.5-7-9V6l7-3z',
+  },
+  {
+    title: 'Accessible',
+    description:
+      'Adjustable text, strong contrast and screen-reader support so everyone can use what we build.',
+    icon: 'M12 7a2 2 0 100-4 2 2 0 000 4zm-7 3l7 1 7-1m-7 1v4m0 0l-2 5m2-5l2 5',
+  },
+  {
+    title: 'Actively maintained',
+    description:
+      'Regular updates, real support and a long-term commitment to every app we release.',
+    icon: 'M4 4v6h6M20 20v-6h-6M20 9a8 8 0 00-14.9-3M4 15a8 8 0 0014.9 3',
+  },
+];
+
+const stats = [
+  { value: '1', label: 'App in active development' },
+  { value: '20+', label: 'Apps on the roadmap' },
+  { value: '100%', label: 'Offline-first by design' },
+  { value: '2024', label: 'Studio founded' },
+];
+
+const technologies = [
+  'Kotlin',
+  'Jetpack Compose',
+  'Material 3',
+  'Room',
+  'Coroutines',
+  'Android Jetpack',
+  'Gradle',
+  'Firebase',
+];
+
+const testimonials = [
+  {
+    quote:
+      'Exactly the kind of calm, focused app I have been looking for. It does one thing and does it beautifully.',
+    name: 'Early beta tester',
+    role: 'Dharma Path',
+  },
+  {
+    quote:
+      'Fast, clean and works offline on my commute. You can tell real care went into the details.',
+    name: 'Community feedback',
+    role: 'Preview program',
+  },
+  {
+    quote:
+      'Finally a studio that treats a simple utility app like a premium product. Looking forward to what is next.',
+    name: 'Play Store follower',
+    role: 'DGS App Studio',
+  },
+];
+---
+
+<BaseLayout title={SITE.name} description={SITE.description}>
+  <!-- Hero -->
+  <section class="relative overflow-hidden">
+    <div class="pointer-events-none absolute inset-0 bg-grid" aria-hidden="true"></div>
+    <div
+      class="pointer-events-none absolute left-1/2 top-[-10%] -z-10 h-[420px] w-[720px] -translate-x-1/2 rounded-full bg-gradient-to-br from-brand-400/25 via-brand-500/20 to-transparent blur-3xl"
+      aria-hidden="true"
+    >
+    </div>
+
+    <div class="container-page relative pb-16 pt-20 text-center sm:pb-24 sm:pt-28">
+      <a
+        href="/apps/dharma-path"
+        class="animate-fade-up inline-flex items-center gap-2 rounded-full border border-app bg-[var(--surface)] px-4 py-1.5 text-sm text-muted shadow-soft transition-colors hover:border-brand-500/50"
+      >
+        <span class="relative flex h-2 w-2">
+          <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-brand-500 opacity-75"></span>
+          <span class="relative inline-flex h-2 w-2 rounded-full bg-brand-600"></span>
+        </span>
+        Introducing Dharma Path — coming soon
+      </a>
+
+      <h1
+        class="animate-fade-up mx-auto mt-7 max-w-4xl text-balance text-4xl font-bold tracking-tight sm:text-6xl lg:text-7xl"
+        style="animation-delay:80ms"
+      >
+        Building beautiful <span class="text-gradient">mobile experiences</span>
+      </h1>
+
+      <p
+        class="animate-fade-up mx-auto mt-6 max-w-2xl text-pretty text-lg text-muted sm:text-xl"
+        style="animation-delay:160ms"
+      >
+        Modern Android applications focused on religion, utilities, productivity and festivals —
+        crafted with care, built to last, and designed to work everywhere.
+      </p>
+
+      <div
+        class="animate-fade-up mt-9 flex flex-wrap items-center justify-center gap-3"
+        style="animation-delay:240ms"
+      >
+        <Button href="/apps" size="lg">View Apps</Button>
+        <Button href="/contact" size="lg" variant="secondary">Contact Us</Button>
+      </div>
+
+      <!-- Floating app preview -->
+      <div class="animate-fade-up mt-16 sm:mt-20" style="animation-delay:320ms">
+        <div class="mx-auto max-w-md">
+          <div class="animate-float surface-card overflow-hidden p-2 shadow-soft-lg">
+            <div
+              class="rounded-2xl bg-gradient-to-br from-ink-900 to-ink-800 p-6 text-left"
+            >
+              <div class="flex items-center gap-3">
+                <div
+                  class="grid h-12 w-12 place-items-center rounded-xl"
+                  style={`background: linear-gradient(135deg, ${featuredApp.data.accent.from}, ${featuredApp.data.accent.to});`}
+                >
+                  <svg class="h-6 w-6 text-white" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                    <path d={featuredApp.data.icon} />
+                  </svg>
+                </div>
+                <div>
+                  <p class="font-semibold text-white">{featuredApp.data.title}</p>
+                  <p class="text-xs text-ink-400">{featuredApp.data.categories[0]}</p>
+                </div>
+                <span class="ml-auto rounded-full bg-brand-500/20 px-2.5 py-1 text-xs font-medium text-brand-300">
+                  Coming Soon
+                </span>
+              </div>
+              <div class="mt-5 space-y-2.5">
+                <div class="h-2.5 w-3/4 rounded-full bg-white/15"></div>
+                <div class="h-2.5 w-full rounded-full bg-white/10"></div>
+                <div class="h-2.5 w-5/6 rounded-full bg-white/10"></div>
+              </div>
+              <div class="mt-5 grid grid-cols-3 gap-2">
+                {['Scriptures', 'Panchang', 'Calendar'].map((t) => (
+                  <div class="rounded-lg bg-white/5 px-2 py-3 text-center text-[11px] font-medium text-ink-300">
+                    {t}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats -->
+  <section class="border-y border-app bg-app-surface py-12">
+    <div class="container-page">
+      <dl class="grid grid-cols-2 gap-8 sm:grid-cols-4">
+        {
+          stats.map((s) => (
+            <div class="reveal text-center">
+              <dt class="text-3xl font-bold tracking-tight text-gradient sm:text-4xl">
+                {s.value}
+              </dt>
+              <dd class="mt-1 text-sm text-muted">{s.label}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+  </section>
+
+  <!-- Features / Why choose us -->
+  <Section
+    eyebrow="Why choose us"
+    title="Software-grade quality, in every app"
+    subtitle="We treat even the simplest utility like a premium product — the same standards you would expect from the best software companies."
+  >
+    <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      {features.map((f) => <FeatureCard {...f} />)}
+    </div>
+  </Section>
+
+  <!-- Mission -->
+  <Section surface>
+    <div class="grid items-center gap-12 lg:grid-cols-2">
+      <div class="reveal">
+        <p class="text-sm font-semibold uppercase tracking-wider text-brand">
+          Our mission
+        </p>
+        <h2 class="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">
+          Everyday apps, made with intention
+        </h2>
+        <p class="mt-4 text-lg text-muted">
+          DGS App Studio exists to build mobile apps that feel calm, respectful and genuinely
+          useful. We start with people's real routines — devotion, planning, productivity,
+          celebration — and design software that fits quietly into daily life.
+        </p>
+        <p class="mt-4 text-muted">
+          We are independent and product-led. That means we can focus on craft over hype, ship
+          steady improvements, and keep our apps fast, private and dependable for the long run.
+        </p>
+        <div class="mt-8">
+          <Button href="/about" variant="secondary">Read our story</Button>
+        </div>
+      </div>
+      <div class="reveal grid grid-cols-2 gap-4">
+        {
+          [
+            { k: 'Craft', v: 'Details that make software feel effortless.' },
+            { k: 'Respect', v: 'For your time, your data and your device.' },
+            { k: 'Reliability', v: 'Apps that keep working, offline and on.' },
+            { k: 'Longevity', v: 'Long-term support, not launch-and-leave.' },
+          ].map((c) => (
+            <div class="surface-card p-6">
+              <p class="text-lg font-semibold text-gradient">{c.k}</p>
+              <p class="mt-2 text-sm text-muted">{c.v}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </Section>
+
+  <!-- Latest application -->
+  <Section
+    eyebrow="Latest application"
+    title="Meet Dharma Path"
+    subtitle="Our first app brings scripture, devotion and festivals into one calm, offline-first experience."
+  >
+    <div class="mx-auto max-w-md">
+      <AppCard app={featuredApp} />
+    </div>
+    <div class="reveal mt-8 text-center">
+      <Button href="/apps" variant="ghost">See all apps →</Button>
+    </div>
+  </Section>
+
+  <!-- Technologies -->
+  <Section
+    surface
+    eyebrow="Technologies"
+    title="Built on a modern Android stack"
+    subtitle="We use the tools trusted by the best mobile teams to ship fast, stable and maintainable apps."
+  >
+    <div class="reveal flex flex-wrap justify-center gap-3">
+      {
+        technologies.map((t) => (
+          <span class="rounded-full border border-app bg-[var(--bg)] px-4 py-2 text-sm font-medium text-muted shadow-soft">
+            {t}
+          </span>
+        ))
+      }
+    </div>
+  </Section>
+
+  <!-- Testimonials placeholder -->
+  <Section
+    eyebrow="What people say"
+    title="Early words from our community"
+    subtitle="Placeholder testimonials from our preview program — real reviews will appear here after launch."
+  >
+    <div class="grid gap-5 md:grid-cols-3">
+      {
+        testimonials.map((t) => (
+          <figure class="reveal surface-card flex flex-col p-6">
+            <div class="flex gap-1 text-brand-500" aria-hidden="true">
+              {Array.from({ length: 5 }).map(() => (
+                <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 3l2.4 5.9L20 11l-5.6 2.1L12 19l-2.4-5.9L4 11l5.6-2.1L12 3z" />
+                </svg>
+              ))}
+            </div>
+            <blockquote class="mt-4 flex-1 text-sm leading-relaxed text-muted">
+              “{t.quote}”
+            </blockquote>
+            <figcaption class="mt-5 border-t border-app pt-4">
+              <p class="text-sm font-semibold">{t.name}</p>
+              <p class="text-xs text-muted">{t.role}</p>
+            </figcaption>
+          </figure>
+        ))
+      }
+    </div>
+  </Section>
+
+  <Cta />
+</BaseLayout>

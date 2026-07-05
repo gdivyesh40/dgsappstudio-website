@@ -1,0 +1,338 @@
+---
+import type { GetStaticPaths } from 'astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Section from '../../components/Section.astro';
+import FeatureCard from '../../components/FeatureCard.astro';
+import Faq from '../../components/Faq.astro';
+import Button from '../../components/Button.astro';
+import { getApps, STATUS_LABEL, primaryCategory } from '../../lib/apps';
+import { SITE } from '../../consts';
+
+// One page per app in the collection — add a Markdown file, get a page.
+export const getStaticPaths = (async () => {
+  const apps = await getApps();
+  return apps.map((app) => ({ params: { slug: app.slug }, props: { app } }));
+}) satisfies GetStaticPaths;
+
+const { app } = Astro.props;
+const { data } = app;
+const { Content } = await app.render();
+
+const dateFmt = new Intl.DateTimeFormat('en', { dateStyle: 'medium' });
+
+const roadmapStatusLabel: Record<string, string> = {
+  planned: 'Planned',
+  'in-progress': 'In progress',
+  shipped: 'Shipped',
+};
+
+// --- Structured data, generated automatically from the collection entry ---
+const appJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: data.title,
+  description: data.description,
+  applicationCategory: 'MobileApplication',
+  operatingSystem: data.platforms.map((p) => (p === 'ios' ? 'iOS' : 'Android')).join(', '),
+  ...(data.version ? { softwareVersion: data.version } : {}),
+  ...(data.releaseDate ? { datePublished: data.releaseDate.toISOString().slice(0, 10) } : {}),
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  publisher: { '@id': `${SITE.url}/#organization` },
+};
+
+const breadcrumbJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: SITE.url },
+    { '@type': 'ListItem', position: 2, name: 'Apps', item: `${SITE.url}/apps` },
+    { '@type': 'ListItem', position: 3, name: data.title, item: `${SITE.url}/apps/${app.slug}` },
+  ],
+};
+
+const faqJsonLd = data.faqs.length
+  ? {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: data.faqs.map((f) => ({
+        '@type': 'Question',
+        name: f.question,
+        acceptedAnswer: { '@type': 'Answer', text: f.answer },
+      })),
+    }
+  : undefined;
+
+const jsonLd = [appJsonLd, breadcrumbJsonLd, ...(faqJsonLd ? [faqJsonLd] : [])];
+---
+
+<BaseLayout title={data.title} description={data.description} type="article" jsonLd={jsonLd}>
+  <!-- Hero -->
+  <section class="relative overflow-hidden border-b border-app">
+    <div class="pointer-events-none absolute inset-0 bg-grid" aria-hidden="true"></div>
+    <div
+      class="pointer-events-none absolute right-0 top-0 -z-10 h-96 w-96 rounded-full blur-3xl"
+      style={`background: radial-gradient(circle, ${data.accent.from}33, transparent 70%);`}
+      aria-hidden="true"
+    >
+    </div>
+
+    <div class="container-page relative py-16 sm:py-20">
+      <a href="/apps" class="text-sm text-muted transition-colors hover:text-brand">
+        ← All apps
+      </a>
+      <div class="mt-6 grid items-center gap-12 lg:grid-cols-2">
+        <div>
+          <div class="flex items-center gap-4">
+            <div
+              class="grid h-16 w-16 place-items-center rounded-2xl shadow-soft-lg"
+              style={`background: linear-gradient(135deg, ${data.accent.from}, ${data.accent.to});`}
+            >
+              <svg class="h-8 w-8 text-white" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d={data.icon} />
+              </svg>
+            </div>
+            <span class="rounded-full bg-brand-500/10 px-3 py-1 text-xs font-medium text-brand">
+              {STATUS_LABEL[data.status]}
+            </span>
+          </div>
+
+          <h1 class="mt-6 text-4xl font-bold tracking-tight sm:text-5xl">{data.title}</h1>
+          <p class="mt-3 text-xl text-muted">{data.tagline}</p>
+          <p class="mt-4 max-w-xl text-muted">{data.description}</p>
+
+          <div class="mt-8 flex flex-wrap gap-3">
+            {
+              data.playStoreUrl ? (
+                <Button href={data.playStoreUrl} size="lg">Get it on Google Play</Button>
+              ) : (
+                <Button size="lg" disabled>Google Play — coming soon</Button>
+              )
+            }
+            <Button href="#faq" size="lg" variant="secondary">Read FAQ</Button>
+          </div>
+
+          <div class="mt-6 flex flex-wrap gap-x-6 gap-y-2 text-sm text-muted">
+            <span>Category: <strong class="font-medium text-[var(--text)]">{primaryCategory(app)}</strong></span>
+            {data.version && <span>Version: <strong class="font-medium text-[var(--text)]">{data.version}</strong></span>}
+            {data.releaseDate && <span>Released: {dateFmt.format(data.releaseDate)}</span>}
+            {data.offline && <span>✓ Works offline</span>}
+            <span>Platforms: {data.platforms.map((p) => (p === 'ios' ? 'iOS' : 'Android')).join(', ')}</span>
+          </div>
+        </div>
+
+        <!-- Screenshots carousel placeholder -->
+        <div class="reveal">
+          <div
+            class="flex snap-x snap-mandatory gap-4 overflow-x-auto pb-4"
+            role="region"
+            aria-label={`${data.title} screenshots`}
+          >
+            {
+              data.screenshots.map((s) => (
+                <div class="aspect-[9/19] w-40 shrink-0 snap-center overflow-hidden rounded-3xl border border-app bg-gradient-to-b from-ink-900 to-ink-800 p-2 shadow-soft-lg sm:w-44">
+                  <div class="flex h-full flex-col rounded-2xl bg-white/5 p-3">
+                    <div class="mx-auto mb-3 h-1.5 w-10 rounded-full bg-white/20" />
+                    <div
+                      class="grid h-10 w-10 place-items-center rounded-xl"
+                      style={`background: linear-gradient(135deg, ${data.accent.from}, ${data.accent.to});`}
+                    >
+                      <svg class="h-5 w-5 text-white" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                        <path d={data.icon} />
+                      </svg>
+                    </div>
+                    <div class="mt-3 space-y-2">
+                      <div class="h-2 w-3/4 rounded-full bg-white/15" />
+                      <div class="h-2 w-full rounded-full bg-white/10" />
+                      <div class="h-2 w-5/6 rounded-full bg-white/10" />
+                    </div>
+                    <p class="mt-auto text-center text-[11px] font-medium text-ink-400">{s.label}</p>
+                  </div>
+                </div>
+              ))
+            }
+          </div>
+          <p class="mt-1 text-center text-xs text-muted">Screenshot previews — swipe to explore</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About (rendered from the Markdown body) -->
+  <Section eyebrow="Overview" title={`About ${data.title}`}>
+    <div class="prose-legal mx-auto max-w-3xl">
+      <Content />
+    </div>
+  </Section>
+
+  <!-- Features -->
+  {
+    data.features.length > 0 && (
+      <Section
+        surface
+        eyebrow="Features"
+        title={`Everything ${data.title} offers`}
+        subtitle="A focused set of features, each designed to feel simple and dependable."
+      >
+        <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {data.features.map((f) => <FeatureCard {...f} />)}
+        </div>
+      </Section>
+    )
+  }
+
+  <!-- Why + Languages + Offline -->
+  <Section>
+    <div class="grid gap-6 lg:grid-cols-3">
+      <div class="reveal surface-card p-8 lg:col-span-1">
+        <h2 class="text-xl font-semibold">Why {data.title}?</h2>
+        <ul class="mt-5 space-y-3">
+          {
+            data.highlights.map((h) => (
+              <li class="flex items-start gap-3 text-sm text-muted">
+                <svg class="mt-0.5 h-5 w-5 shrink-0 text-brand" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                {h}
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <div class="grid gap-6 lg:col-span-2">
+        {
+          data.languages.length > 0 && (
+            <div class="reveal surface-card p-8">
+              <h2 class="text-xl font-semibold">Languages</h2>
+              <p class="mt-2 text-sm text-muted">Available at launch, with more languages planned.</p>
+              <div class="mt-4 flex flex-wrap gap-2">
+                {data.languages.map((l) => (
+                  <span class="rounded-full border border-app bg-[var(--bg)] px-3 py-1.5 text-sm font-medium">
+                    {l}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )
+        }
+        {
+          data.offline && (
+            <div class="reveal surface-card p-8">
+              <h2 class="text-xl font-semibold">Offline support</h2>
+              <p class="mt-2 text-sm text-muted">
+                {data.title} is offline-first. The core content and daily features work without an
+                internet connection, so you can rely on the app anywhere — on a commute, while
+                travelling, or in low-signal areas.
+              </p>
+            </div>
+          )
+        }
+      </div>
+    </div>
+  </Section>
+
+  <!-- Roadmap -->
+  {
+    data.roadmap.length > 0 && (
+      <Section surface eyebrow="Roadmap" title="Where we are headed" subtitle="Our plans for future releases — priorities may shift based on your feedback.">
+        <ol class="relative mx-auto max-w-2xl border-l border-app">
+          {data.roadmap.map((r) => (
+            <li class="reveal mb-8 ml-6">
+              <span
+                class:list={[
+                  'absolute -left-2.5 mt-1.5 h-5 w-5 rounded-full border-4 border-[var(--bg)]',
+                  r.status === 'shipped'
+                    ? 'bg-emerald-500'
+                    : r.status === 'in-progress'
+                      ? 'bg-brand-500'
+                      : 'bg-ink-300 dark:bg-ink-600',
+                ]}
+              />
+              <div class="flex flex-wrap items-center gap-2">
+                <h3 class="text-base font-semibold">{r.title}</h3>
+                <span class="rounded-full bg-[var(--surface-2)] px-2.5 py-0.5 text-xs font-medium text-muted">
+                  {roadmapStatusLabel[r.status]}
+                </span>
+              </div>
+              <p class="mt-1 text-sm text-muted">{r.description}</p>
+            </li>
+          ))}
+        </ol>
+      </Section>
+    )
+  }
+
+  <!-- Changelog -->
+  {
+    data.changelog.length > 0 && (
+      <Section eyebrow="Changelog" title="Release history">
+        <div class="mx-auto max-w-2xl space-y-6">
+          {data.changelog.map((release) => (
+            <div class="reveal surface-card p-6">
+              <div class="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+                <h3 class="text-lg font-semibold">v{release.version}</h3>
+                <time datetime={release.date.toISOString()} class="text-sm text-muted">
+                  {dateFmt.format(release.date)}
+                </time>
+              </div>
+              <ul class="mt-3 space-y-2">
+                {release.notes.map((note) => (
+                  <li class="flex items-start gap-2 text-sm text-muted">
+                    <svg class="mt-0.5 h-4 w-4 shrink-0 text-brand" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                      <path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                    {note}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </Section>
+    )
+  }
+
+  <!-- Download -->
+  <section class="py-16 sm:py-20">
+    <div class="container-page">
+      <div class="reveal relative overflow-hidden rounded-4xl border border-app bg-app-surface px-6 py-14 text-center sm:px-12">
+        <h2 class="text-3xl font-bold tracking-tight sm:text-4xl">Get {data.title}</h2>
+        <p class="mx-auto mt-3 max-w-xl text-muted">
+          {
+            data.playStoreUrl
+              ? 'Available now on Google Play. Download and start today.'
+              : 'Almost ready. The app will be available on Google Play soon — check back for the launch.'
+          }
+        </p>
+        <div class="mt-8 flex flex-wrap justify-center gap-3">
+          {
+            data.playStoreUrl ? (
+              <Button href={data.playStoreUrl} size="lg">Get it on Google Play</Button>
+            ) : (
+              <Button size="lg" disabled>Coming soon to Google Play</Button>
+            )
+          }
+          <Button href={data.supportUrl} size="lg" variant="secondary">Get support</Button>
+        </div>
+        {
+          data.privacyUrl && (
+            <p class="mt-6 text-sm text-muted">
+              Read the <a href={data.privacyUrl} class="text-brand underline hover:text-brand-700">{data.title} privacy policy</a>.
+            </p>
+          )
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  {
+    data.faqs.length > 0 && (
+      <Section id="faq" eyebrow="FAQ" title="Frequently asked questions">
+        <div class="mx-auto max-w-3xl">
+          <Faq items={data.faqs} />
+        </div>
+      </Section>
+    )
+  }
+</BaseLayout>

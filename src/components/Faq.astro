@@ -1,0 +1,29 @@
+---
+/** Accessible FAQ accordion built on native <details>/<summary>. */
+interface Props {
+  items: { question: string; answer: string }[];
+  class?: string;
+}
+const { items, class: className = '' } = Astro.props;
+---
+
+<div class:list={['divide-y divide-[var(--border)]', className]}>
+  {
+    items.map((item) => (
+      <details class="group py-2">
+        <summary class="flex cursor-pointer list-none items-center justify-between gap-4 py-4 text-left text-base font-medium marker:content-['']">
+          {item.question}
+          <svg
+            class="h-5 w-5 shrink-0 text-muted transition-transform duration-300 group-open:rotate-45"
+            viewBox="0 0 24 24"
+            fill="none"
+            aria-hidden="true"
+          >
+            <path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+          </svg>
+        </summary>
+        <p class="pb-4 pr-8 text-sm leading-relaxed text-muted">{item.answer}</p>
+      </details>
+    ))
+  }
+</div>

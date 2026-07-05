@@ -1,0 +1,167 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Section from '../components/Section.astro';
+import Cta from '../components/Cta.astro';
+
+const values = [
+  {
+    title: 'Craft over shortcuts',
+    description:
+      'We sweat the details others skip. Good software feels obvious because a lot of careful work went into it.',
+  },
+  {
+    title: 'Respect the user',
+    description:
+      'Your time, attention and data matter. We build calm, honest apps free of dark patterns.',
+  },
+  {
+    title: 'Reliability first',
+    description:
+      'An app you cannot trust is not useful. We prioritize stability, offline support and performance.',
+  },
+  {
+    title: 'Build for the long run',
+    description:
+      'We support what we ship. Every app is a commitment, not a one-time launch.',
+  },
+];
+
+const stack = [
+  { group: 'Language', items: ['Kotlin'] },
+  { group: 'UI', items: ['Jetpack Compose', 'Material 3'] },
+  { group: 'Data', items: ['Room', 'DataStore'] },
+  { group: 'Async', items: ['Coroutines', 'Flow'] },
+  { group: 'Tooling', items: ['Gradle', 'Android Studio'] },
+  { group: 'Services', items: ['Firebase', 'Play Console'] },
+];
+
+const process = [
+  { step: '01', title: 'Discover', description: 'We study real routines and needs to find problems worth solving well.' },
+  { step: '02', title: 'Design', description: 'We prototype clean, accessible flows and refine until they feel effortless.' },
+  { step: '03', title: 'Build', description: 'We develop with a modern, testable Android stack and review every detail.' },
+  { step: '04', title: 'Ship & support', description: 'We release carefully, listen to feedback and improve continuously.' },
+];
+---
+
+<BaseLayout
+  title="About"
+  description="DGS App Studio is an independent, product-led mobile app development studio. Learn about our mission, vision, values, stack and process."
+>
+  <section class="relative overflow-hidden border-b border-app">
+    <div class="pointer-events-none absolute inset-0 bg-grid" aria-hidden="true"></div>
+    <div class="container-page relative py-16 text-center sm:py-24">
+      <p class="text-sm font-semibold uppercase tracking-wider text-brand">
+        About us
+      </p>
+      <h1 class="mx-auto mt-3 max-w-3xl text-balance text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">
+        An independent studio building apps worth keeping
+      </h1>
+      <p class="mx-auto mt-5 max-w-2xl text-lg text-muted">
+        DGS App Studio is a product-led mobile development studio. We design and build modern
+        Android applications — with iOS on the horizon — that people are glad to use every day.
+      </p>
+    </div>
+  </section>
+
+  <!-- Story -->
+  <Section>
+    <div class="mx-auto max-w-3xl">
+      <div class="reveal prose-legal">
+        <h2 class="text-2xl font-bold tracking-tight">Our story</h2>
+        <p class="mt-4 text-lg leading-relaxed text-muted">
+          DGS App Studio started with a simple frustration: too many everyday apps feel cluttered,
+          slow or disrespectful of the people using them. We believed even a small utility deserves
+          the same craft as world-class software.
+        </p>
+        <p class="mt-4 leading-relaxed text-muted">
+          So we set out to build a studio focused on quality over quantity. Our first app, Dharma
+          Path, brings scripture, devotion and festivals into one calm, offline-first experience.
+          It is the first of many — festival apps, calendars, utilities, productivity tools and
+          greeting apps are all on the way, each held to the same standard.
+        </p>
+      </div>
+    </div>
+  </Section>
+
+  <!-- Mission & Vision -->
+  <Section surface>
+    <div class="grid gap-6 md:grid-cols-2">
+      <div class="reveal surface-card p-8">
+        <div class="grid h-11 w-11 place-items-center rounded-xl bg-brand-500/10 text-brand">
+          <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M12 2l3 7 7 .5-5.5 4.5 2 7L12 17l-6.5 4 2-7L2 9.5 9 9l3-7z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" />
+          </svg>
+        </div>
+        <h2 class="mt-5 text-2xl font-bold tracking-tight">Mission</h2>
+        <p class="mt-3 text-muted">
+          To build mobile apps that feel calm, respectful and genuinely useful — software that fits
+          quietly into everyday life and earns a permanent place on your home screen.
+        </p>
+      </div>
+      <div class="reveal surface-card p-8">
+        <div class="grid h-11 w-11 place-items-center rounded-xl bg-brand-500/10 text-brand">
+          <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z" stroke="currentColor" stroke-width="1.6" />
+            <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.6" />
+          </svg>
+        </div>
+        <h2 class="mt-5 text-2xl font-bold tracking-tight">Vision</h2>
+        <p class="mt-3 text-muted">
+          A trusted studio behind 20+ high-quality apps across Android and iOS — known for craft,
+          reliability and putting people first, one thoughtful release at a time.
+        </p>
+      </div>
+    </div>
+  </Section>
+
+  <!-- Values -->
+  <Section eyebrow="What we value" title="Principles that guide every decision">
+    <div class="grid gap-5 sm:grid-cols-2">
+      {
+        values.map((v) => (
+          <div class="reveal surface-card p-7">
+            <h3 class="text-lg font-semibold">{v.title}</h3>
+            <p class="mt-2 text-sm leading-relaxed text-muted">{v.description}</p>
+          </div>
+        ))
+      }
+    </div>
+  </Section>
+
+  <!-- Technology stack -->
+  <Section surface eyebrow="Technology" title="Our technology stack" subtitle="The modern Android toolset behind our apps.">
+    <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        stack.map((s) => (
+          <div class="reveal surface-card p-6">
+            <p class="text-xs font-semibold uppercase tracking-wider text-muted">{s.group}</p>
+            <div class="mt-3 flex flex-wrap gap-2">
+              {s.items.map((i) => (
+                <span class="rounded-full border border-app bg-[var(--bg)] px-3 py-1.5 text-sm font-medium">
+                  {i}
+                </span>
+              ))}
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </Section>
+
+  <!-- Development process -->
+  <Section eyebrow="How we work" title="Our development process">
+    <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+      {
+        process.map((p) => (
+          <div class="reveal surface-card p-7">
+            <span class="text-3xl font-bold text-gradient">{p.step}</span>
+            <h3 class="mt-3 text-lg font-semibold">{p.title}</h3>
+            <p class="mt-2 text-sm leading-relaxed text-muted">{p.description}</p>
+          </div>
+        ))
+      }
+    </div>
+  </Section>
+
+  <Cta title="Let's build something people love" />
+</BaseLayout>

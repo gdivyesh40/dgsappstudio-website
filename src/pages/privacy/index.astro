@@ -1,0 +1,79 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Section from '../../components/Section.astro';
+import { getApps } from '../../lib/apps';
+import { SITE, CONTACT } from '../../consts';
+
+const apps = await getApps();
+const appsWithPolicy = apps.filter((a) => Boolean(a.data.privacyUrl));
+---
+
+<BaseLayout
+  title="Privacy"
+  description="Privacy at DGS App Studio — our overall approach and per-app privacy policies."
+>
+  <section class="border-b border-app bg-app-surface">
+    <div class="container-page py-14 sm:py-16">
+      <p class="text-sm font-semibold uppercase tracking-wider text-brand">
+        Privacy
+      </p>
+      <h1 class="mt-3 text-4xl font-bold tracking-tight sm:text-5xl">Your privacy, respected</h1>
+      <p class="mt-4 max-w-2xl text-lg text-muted">
+        We collect the minimum data needed to run our apps and are transparent about it. Choose an
+        app below for its specific policy, or read our studio-wide approach.
+      </p>
+    </div>
+  </section>
+
+  <!-- Overall approach -->
+  <Section>
+    <div class="mx-auto max-w-3xl">
+      <div class="reveal prose-legal">
+        <h2>Our approach to privacy</h2>
+        <p>
+          {SITE.name} builds apps that respect the people using them. Across all our products we
+          follow the same core principles:
+        </p>
+        <ul>
+          <li><strong>Data minimization</strong> — we only collect what an app genuinely needs to function.</li>
+          <li><strong>Transparency</strong> — every app has a clear, plain-language privacy policy.</li>
+          <li><strong>No selling of data</strong> — we do not sell your personal information.</li>
+          <li><strong>Security</strong> — we take reasonable measures to protect any data we handle.</li>
+          <li><strong>Control</strong> — you can contact us any time to ask about or request deletion of your data.</li>
+        </ul>
+        <p>
+          Questions about privacy? Email
+          <a href={`mailto:${CONTACT.privacy}`} class="text-brand underline hover:text-brand-700">{CONTACT.privacy}</a>.
+        </p>
+      </div>
+    </div>
+  </Section>
+
+  <!-- Per-app policies -->
+  <Section surface eyebrow="Per-app policies" title="App privacy policies">
+    <div class="mx-auto grid max-w-3xl gap-4">
+      {
+        appsWithPolicy.map((app) => (
+          <a
+            href={app.data.privacyUrl}
+            class="reveal surface-card group flex items-center gap-4 p-6 transition-all hover:-translate-y-0.5 hover:shadow-soft-lg"
+          >
+            <div
+              class="grid h-12 w-12 place-items-center rounded-xl shadow-soft"
+              style={`background: linear-gradient(135deg, ${app.data.accent.from}, ${app.data.accent.to});`}
+            >
+              <svg class="h-6 w-6 text-white" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d={app.data.icon} />
+              </svg>
+            </div>
+            <div class="flex-1">
+              <h3 class="font-semibold">{app.data.title} Privacy Policy</h3>
+              <p class="text-sm text-muted">{app.data.categories[0]}</p>
+            </div>
+            <span class="text-brand transition-transform group-hover:translate-x-1 dark:text-brand-400">→</span>
+          </a>
+        ))
+      }
+    </div>
+  </Section>
+</BaseLayout>

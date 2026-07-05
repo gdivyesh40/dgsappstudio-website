@@ -1,0 +1,114 @@
+---
+import Logo from './Logo.astro';
+import ThemeToggle from './ThemeToggle.astro';
+import Button from './Button.astro';
+import { MAIN_NAV } from '../data/navigation';
+
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const isActive = (href: string) =>
+  href === '/' ? path === '/' : path === href || path.startsWith(href + '/');
+---
+
+<header
+  id="site-header"
+  class="sticky top-0 z-50 border-b border-transparent transition-colors duration-300"
+>
+  <div class="container-page flex h-16 items-center justify-between gap-4">
+    <Logo />
+
+    <nav class="hidden items-center gap-1 md:flex" aria-label="Primary">
+      {
+        MAIN_NAV.map((item) => (
+          <a
+            href={item.href}
+            aria-current={isActive(item.href) ? 'page' : undefined}
+            class:list={[
+              'rounded-full px-3.5 py-2 text-sm font-medium transition-colors',
+              isActive(item.href)
+                ? 'text-brand'
+                : 'text-muted hover:text-[var(--text)]',
+            ]}
+          >
+            {item.label}
+          </a>
+        ))
+      }
+    </nav>
+
+    <div class="flex items-center gap-2">
+      <ThemeToggle />
+      <Button href="/apps" size="sm" class="hidden sm:inline-flex">View Apps</Button>
+      <button
+        id="menu-button"
+        type="button"
+        class="grid h-9 w-9 place-items-center rounded-full border border-app md:hidden"
+        aria-label="Open menu"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+      >
+        <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile menu -->
+  <div
+    id="mobile-menu"
+    class="hidden border-t border-app bg-[var(--bg)] md:hidden"
+  >
+    <nav class="container-page flex flex-col gap-1 py-4" aria-label="Mobile">
+      {
+        MAIN_NAV.map((item) => (
+          <a
+            href={item.href}
+            aria-current={isActive(item.href) ? 'page' : undefined}
+            class:list={[
+              'rounded-xl px-4 py-3 text-base font-medium transition-colors',
+              isActive(item.href)
+                ? 'bg-[var(--surface-2)] text-brand'
+                : 'text-muted hover:bg-[var(--surface-2)]',
+            ]}
+          >
+            {item.label}
+          </a>
+        ))
+      }
+      <a
+        href="/apps"
+        class="mt-2 rounded-full bg-gradient-to-br from-brand-500 to-brand-600 px-4 py-3 text-center text-base font-medium text-white"
+      >
+        View Apps
+      </a>
+    </nav>
+  </div>
+</header>
+
+<script>
+  // Mobile menu toggle
+  const btn = document.getElementById('menu-button');
+  const menu = document.getElementById('mobile-menu');
+  btn?.addEventListener('click', () => {
+    const open = menu?.classList.toggle('hidden') === false;
+    btn.setAttribute('aria-expanded', String(open));
+    btn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+  });
+
+  // Elevate header on scroll (single CSS class; see .header-scrolled in global.css).
+  // rAF-throttled to keep scrolling on the compositor and avoid layout thrash.
+  const header = document.getElementById('site-header');
+  let ticking = false;
+  const apply = () => {
+    header?.classList.toggle('header-scrolled', window.scrollY > 8);
+    ticking = false;
+  };
+  const onScroll = () => {
+    if (!ticking) {
+      ticking = true;
+      requestAnimationFrame(apply);
+    }
+  };
+  apply();
+  window.addEventListener('scroll', onScroll, { passive: true });
+</script>

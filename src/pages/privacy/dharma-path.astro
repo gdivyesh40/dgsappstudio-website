@@ -1,0 +1,103 @@
+---
+import LegalLayout from '../../layouts/LegalLayout.astro';
+import { CONTACT, SITE } from '../../consts';
+
+const updated = 'July 5, 2026';
+const toc = [
+  { id: 'overview', label: 'Overview' },
+  { id: 'data-we-collect', label: 'Data we collect' },
+  { id: 'how-we-use-data', label: 'How we use data' },
+  { id: 'permissions', label: 'Permissions' },
+  { id: 'third-parties', label: 'Third-party services' },
+  { id: 'data-storage', label: 'Data storage & security' },
+  { id: 'childrens-privacy', label: "Children's privacy" },
+  { id: 'your-rights', label: 'Your rights' },
+  { id: 'changes', label: 'Changes' },
+  { id: 'contact', label: 'Contact' },
+];
+---
+
+<LegalLayout
+  title="Dharma Path Privacy Policy"
+  description="Privacy policy for the Dharma Path Android application by DGS App Studio."
+  updated={updated}
+  intro="How the Dharma Path app handles your information."
+  toc={toc}
+>
+  <h2 id="overview">Overview</h2>
+  <p>
+    This Privacy Policy explains how {SITE.name} ("we", "us") handles information in connection with
+    the Dharma Path mobile application ("the App"). Dharma Path is designed to be offline-first and
+    privacy-respecting: it works primarily on your device and collects as little data as possible.
+  </p>
+
+  <h2 id="data-we-collect">Data we collect</h2>
+  <p>Dharma Path is built to minimize data collection. Specifically:</p>
+  <ul>
+    <li><strong>Content you read and bookmark</strong> is stored locally on your device and is not transmitted to us.</li>
+    <li><strong>App preferences</strong> (such as language, text size and theme) are stored locally on your device.</li>
+    <li>
+      <strong>Basic diagnostic and usage data</strong> may be collected in aggregated, anonymized
+      form to help us fix crashes and improve the App, only if analytics are enabled (see
+      Third-party services).
+    </li>
+  </ul>
+  <p>We do not require you to create an account, and we do not collect your name, contact details or precise location.</p>
+
+  <h2 id="how-we-use-data">How we use data</h2>
+  <p>Any limited data we process is used only to:</p>
+  <ul>
+    <li>Operate the App and remember your preferences on your device.</li>
+    <li>Diagnose crashes and technical problems.</li>
+    <li>Understand aggregate usage trends to prioritize improvements.</li>
+  </ul>
+  <p>We do not sell your personal information, and we do not use it for advertising profiles.</p>
+
+  <h2 id="permissions">Permissions</h2>
+  <p>
+    Dharma Path requests only the permissions necessary for its features. Where the App needs a
+    permission (for example, notifications for festival reminders), it will ask for it in context,
+    and you can decline or revoke it at any time in your device settings.
+  </p>
+
+  <h2 id="third-parties">Third-party services</h2>
+  <p>
+    We may use reputable third-party services for crash reporting and anonymized analytics (for
+    example, Google Play services). These providers process limited technical data under their own
+    privacy policies. If and when such services are enabled, they are configured to avoid collecting
+    personally identifying information wherever possible.
+  </p>
+
+  <h2 id="data-storage">Data storage & security</h2>
+  <p>
+    Your reading history, bookmarks and preferences remain on your device. We apply reasonable
+    technical and organizational measures to protect any data we do handle. No method of storage or
+    transmission is completely secure, but we work to safeguard your information.
+  </p>
+
+  <h2 id="childrens-privacy">Children's privacy</h2>
+  <p>
+    Dharma Path is suitable for a general audience and does not knowingly collect personal
+    information from children. If you believe a child has provided us personal information, please
+    contact us so we can address it.
+  </p>
+
+  <h2 id="your-rights">Your rights</h2>
+  <p>
+    Because most data stays on your device, you can clear it at any time by clearing the App's data
+    or uninstalling the App. For any request regarding data we may hold, contact us and we will
+    respond in line with applicable law.
+  </p>
+
+  <h2 id="changes">Changes to this policy</h2>
+  <p>
+    We may update this Privacy Policy as the App evolves. We will revise the "Last updated" date
+    above and, where appropriate, notify you within the App.
+  </p>
+
+  <h2 id="contact">Contact</h2>
+  <p>
+    Questions about this policy? Email us at
+    <a href={`mailto:${CONTACT.privacy}`}>{CONTACT.privacy}</a>.
+  </p>
+</LegalLayout>

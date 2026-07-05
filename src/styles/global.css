@@ -1,0 +1,193 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+ * The Inter variable font is imported in BaseLayout.astro's frontmatter
+ * (`import '@fontsource-variable/inter'`) so Vite fingerprints and emits the
+ * woff2 files. A bare CSS `@import` here is dropped by PostCSS because it sits
+ * after the @tailwind rules, which would silently fall back to system fonts.
+ */
+
+@layer base {
+  :root {
+    --bg: #ffffff;
+    --surface: #f8fafc;
+    --surface-2: #f1f5f9;
+    --text: #0f172a;
+    --text-muted: #475569;
+    --border: #e2e8f0;
+    --primary: #d97706;
+    --accent: #f59e0b;
+    /* Accessible brand text color: #b45309 on white ≈ 4.7:1 (WCAG AA). */
+    --brand-text: #b45309;
+    color-scheme: light;
+  }
+
+  .dark {
+    --bg: #0b1120;
+    --surface: #0f172a;
+    --surface-2: #1e293b;
+    --text: #f1f5f9;
+    --text-muted: #94a3b8;
+    --border: #1e293b;
+    --primary: #f59e0b;
+    --accent: #fbbf24;
+    /* Accessible brand text on dark surfaces: #fb923c ≈ 5.9:1. */
+    --brand-text: #fb923c;
+    color-scheme: dark;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+    scroll-padding-top: 6rem;
+  }
+
+  body {
+    background-color: var(--bg);
+    color: var(--text);
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background-color: rgba(217, 119, 6, 0.18);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  .container-page {
+    @apply mx-auto w-full max-w-content px-5 sm:px-6 lg:px-8;
+  }
+
+  .surface-card {
+    background-color: var(--surface);
+    border: 1px solid var(--border);
+    @apply rounded-3xl;
+  }
+
+  .text-muted {
+    color: var(--text-muted);
+  }
+
+  /* Theme-aware, WCAG-AA brand text color. Use instead of raw `text-brand-600`
+     for readable copy (links, eyebrows) so contrast passes in both themes. */
+  .text-brand {
+    color: var(--brand-text);
+  }
+  .hover\:text-brand:hover {
+    color: var(--brand-text);
+  }
+
+  .border-app {
+    border-color: var(--border);
+  }
+
+  .bg-app-surface {
+    background-color: var(--surface);
+  }
+
+  /* Gradient text used for accents in headings. */
+  .text-gradient {
+    @apply bg-gradient-to-r from-brand-600 to-brand-500 bg-clip-text text-transparent;
+  }
+
+  /*
+   * Reveal-on-scroll. The hidden initial state is scoped to `html.js` so that
+   * without JavaScript (or before hydration) all content is fully visible —
+   * critical for accessibility, SEO and no-flash of empty content.
+   */
+  .reveal {
+    transition:
+      opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  html.js .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  html.js .reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html.js .reveal {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  /*
+   * Sticky header elevation once scrolled (toggled by a single JS class).
+   * Scoped to #site-header so its border-color beats Tailwind's
+   * `border-transparent` utility, which otherwise wins by cascade order.
+   */
+  #site-header.header-scrolled {
+    background-color: color-mix(in srgb, var(--bg) 82%, transparent);
+    backdrop-filter: saturate(180%) blur(12px);
+    -webkit-backdrop-filter: saturate(180%) blur(12px);
+    border-color: var(--border);
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04), 0 8px 24px rgba(15, 23, 42, 0.06);
+  }
+
+  /* Long-form legal / prose content. Single source of truth for legal pages. */
+  .prose-legal :where(h2) {
+    @apply mb-3 mt-10 scroll-mt-24 text-xl font-semibold;
+  }
+  .prose-legal :where(h2):first-child {
+    @apply mt-0;
+  }
+  .prose-legal :where(h3) {
+    @apply mb-2 mt-6 font-semibold;
+  }
+  .prose-legal :where(p) {
+    @apply mb-4 leading-relaxed;
+    color: var(--text-muted);
+  }
+  .prose-legal :where(ul) {
+    @apply mb-4 list-disc pl-5;
+  }
+  .prose-legal :where(li) {
+    @apply mb-1.5;
+    color: var(--text-muted);
+  }
+  .prose-legal :where(a) {
+    @apply font-medium underline underline-offset-2;
+    color: var(--brand-text);
+  }
+  .prose-legal :where(strong) {
+    color: var(--text);
+  }
+}
+
+/* Grid backdrop used in hero sections. */
+.bg-grid {
+  background-image:
+    linear-gradient(to right, rgba(148, 163, 184, 0.08) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(148, 163, 184, 0.08) 1px, transparent 1px);
+  background-size: 56px 56px;
+  -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 0%, #000 40%, transparent 100%);
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 0%, #000 40%, transparent 100%);
+}

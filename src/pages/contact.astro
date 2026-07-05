@@ -1,0 +1,134 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Section from '../components/Section.astro';
+import { CONTACT } from '../consts';
+
+const emails = [
+  { label: 'Support', address: CONTACT.support, note: 'App help, bugs & feature requests' },
+  { label: 'Privacy', address: CONTACT.privacy, note: 'Data & privacy questions' },
+  { label: 'General', address: CONTACT.general, note: 'Everything else' },
+];
+
+const inputCls =
+  'w-full rounded-xl border border-app bg-[var(--bg)] px-4 py-3 text-sm text-[var(--text)] placeholder:text-ink-400 transition-colors focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30';
+---
+
+<BaseLayout
+  title="Contact"
+  description="Get in touch with DGS App Studio. Send us a message or email support, privacy or general enquiries."
+>
+  <section class="relative overflow-hidden border-b border-app">
+    <div class="pointer-events-none absolute inset-0 bg-grid" aria-hidden="true"></div>
+    <div class="container-page relative py-16 text-center sm:py-20">
+      <p class="text-sm font-semibold uppercase tracking-wider text-brand">
+        Contact
+      </p>
+      <h1 class="mx-auto mt-3 max-w-2xl text-balance text-4xl font-bold tracking-tight sm:text-5xl">
+        Get in touch
+      </h1>
+      <p class="mx-auto mt-4 max-w-2xl text-lg text-muted">
+        Questions, feedback or partnership ideas — we would love to hear from you.
+      </p>
+    </div>
+  </section>
+
+  <Section>
+    <div class="grid gap-10 lg:grid-cols-[1fr_1.2fr]">
+      <!-- Contact details -->
+      <div class="reveal">
+        <h2 class="text-2xl font-bold tracking-tight">Email us directly</h2>
+        <p class="mt-3 text-muted">
+          Prefer email? Reach the right team below. We typically reply within a couple of business
+          days.
+        </p>
+        <ul class="mt-8 space-y-4">
+          {
+            emails.map((e) => (
+              <li class="surface-card flex items-center gap-4 p-5">
+                <div class="grid h-11 w-11 place-items-center rounded-xl bg-brand-500/10 text-brand">
+                  <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <path d="M4 6h16v12H4zM4 7l8 6 8-6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                </div>
+                <div>
+                  <p class="text-xs font-semibold uppercase tracking-wide text-muted">{e.label}</p>
+                  <a href={`mailto:${e.address}`} class="font-medium text-brand hover:text-brand-700 dark:text-brand-400">
+                    {e.address}
+                  </a>
+                  <p class="text-xs text-muted">{e.note}</p>
+                </div>
+              </li>
+            ))
+          }
+        </ul>
+        <p class="mt-6 text-xs text-muted">
+          Note: the addresses above are studio contact placeholders and may change before launch.
+        </p>
+      </div>
+
+      <!-- Contact form (UI only — no backend) -->
+      <div class="reveal surface-card p-7 sm:p-9">
+        <h2 class="text-2xl font-bold tracking-tight">Send a message</h2>
+        <p class="mt-2 text-sm text-muted">
+          This is a static site, so the form opens your email app with the details filled in.
+        </p>
+
+        <form id="contact-form" class="mt-6 space-y-5" novalidate>
+          <div class="grid gap-5 sm:grid-cols-2">
+            <div>
+              <label for="name" class="mb-1.5 block text-sm font-medium">Name</label>
+              <input id="name" name="name" type="text" required autocomplete="name" placeholder="Your name" class={inputCls} />
+            </div>
+            <div>
+              <label for="email" class="mb-1.5 block text-sm font-medium">Email</label>
+              <input id="email" name="email" type="email" required autocomplete="email" placeholder="you@example.com" class={inputCls} />
+            </div>
+          </div>
+          <div>
+            <label for="subject" class="mb-1.5 block text-sm font-medium">Subject</label>
+            <input id="subject" name="subject" type="text" required placeholder="How can we help?" class={inputCls} />
+          </div>
+          <div>
+            <label for="message" class="mb-1.5 block text-sm font-medium">Message</label>
+            <textarea id="message" name="message" rows="5" required placeholder="Tell us more…" class={inputCls}></textarea>
+          </div>
+
+          <p id="form-error" class="hidden text-sm text-red-600" role="alert">
+            Please fill in all fields with a valid email address.
+          </p>
+
+          <button
+            type="submit"
+            class="inline-flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-br from-brand-500 to-brand-600 px-6 py-3 font-medium text-white shadow-soft transition-all hover:-translate-y-0.5 hover:shadow-glow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg)] sm:w-auto"
+          >
+            Send message
+          </button>
+        </form>
+      </div>
+    </div>
+  </Section>
+</BaseLayout>
+
+<script is:inline define:vars={{ to: CONTACT.general }}>
+  const form = document.getElementById('contact-form');
+  const errorEl = document.getElementById('form-error');
+  form?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const data = new FormData(form);
+    const name = String(data.get('name') || '').trim();
+    const email = String(data.get('email') || '').trim();
+    const subject = String(data.get('subject') || '').trim();
+    const message = String(data.get('message') || '').trim();
+    const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+    if (!name || !emailValid || !subject || !message) {
+      errorEl?.classList.remove('hidden');
+      return;
+    }
+    errorEl?.classList.add('hidden');
+
+    const body = `Name: ${name}\nEmail: ${email}\n\n${message}`;
+    window.location.href =
+      `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  });
+</script>

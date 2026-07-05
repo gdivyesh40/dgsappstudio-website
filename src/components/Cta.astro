@@ -1,0 +1,44 @@
+---
+import Button from './Button.astro';
+
+interface Props {
+  title?: string;
+  subtitle?: string;
+}
+const {
+  title = 'Have an idea or feedback?',
+  subtitle = 'We build apps people rely on every day. Tell us what you would love to see next — we read every message.',
+} = Astro.props;
+---
+
+<section class="py-16 sm:py-20">
+  <div class="container-page">
+    <div
+      class="reveal relative overflow-hidden rounded-4xl bg-ink-900 px-6 py-14 text-center sm:px-12 sm:py-20"
+    >
+      <div
+        class="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-brand-500/20 blur-3xl"
+        aria-hidden="true"
+      >
+      </div>
+      <div
+        class="pointer-events-none absolute -bottom-24 -left-24 h-72 w-72 rounded-full bg-brand-600/20 blur-3xl"
+        aria-hidden="true"
+      >
+      </div>
+
+      <div class="relative mx-auto max-w-2xl">
+        <h2 class="text-balance text-3xl font-bold tracking-tight text-white sm:text-4xl">
+          {title}
+        </h2>
+        <p class="mt-4 text-pretty text-lg text-ink-300">{subtitle}</p>
+        <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+          <Button href="/contact" size="lg">Contact Us</Button>
+          <Button href="/apps" size="lg" variant="secondary" class="!bg-white/10 !text-white !border-white/20 hover:!bg-white/20">
+            Explore Apps
+          </Button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

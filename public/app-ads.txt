@@ -1,0 +1,12 @@
+# app-ads.txt for DGS App Studio — https://dgsappstudio.com/app-ads.txt
+# Declares authorized sellers of the studio's mobile app advertising inventory.
+# Spec: https://iabtechlab.com/app-ads-txt/
+#
+# Format:  <domain>, <publisher-id>, <DIRECT|RESELLER>, <certification-authority-id>
+#
+# TODO(launch): replace pub-0000000000000000 with your real AdMob publisher ID
+# (AdMob → Settings → "Publisher ID", format pub-XXXXXXXXXXXXXXXX) and remove the
+# leading "# " to activate the line. Google's certification-authority-id is
+# f08c47fec0942fa0. See ADMOB_SETUP.md for the full walkthrough.
+#
+# google.com, pub-0000000000000000, DIRECT, f08c47fec0942fa0

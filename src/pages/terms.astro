@@ -1,0 +1,95 @@
+---
+import LegalLayout from '../layouts/LegalLayout.astro';
+import { SITE, CONTACT } from '../consts';
+
+const updated = 'July 5, 2026';
+const toc = [
+  { id: 'acceptance', label: 'Acceptance of terms' },
+  { id: 'license', label: 'License to use' },
+  { id: 'acceptable-use', label: 'Acceptable use' },
+  { id: 'intellectual-property', label: 'Intellectual property' },
+  { id: 'third-party', label: 'Third-party content' },
+  { id: 'disclaimer', label: 'Disclaimer of warranties' },
+  { id: 'liability', label: 'Limitation of liability' },
+  { id: 'changes', label: 'Changes to terms' },
+  { id: 'governing-law', label: 'Governing law' },
+  { id: 'contact', label: 'Contact' },
+];
+---
+
+<LegalLayout
+  title="Terms & Conditions"
+  description="The terms and conditions governing the use of DGS App Studio's website and applications."
+  updated={updated}
+  intro="Please read these terms carefully before using our website and apps."
+  toc={toc}
+>
+  <h2 id="acceptance">1. Acceptance of terms</h2>
+  <p>
+    By accessing the {SITE.name} website ({SITE.url}) or using any application published by
+    {SITE.name} ("we", "us", "our"), you agree to be bound by these Terms &amp; Conditions. If you do
+    not agree, please do not use our website or apps.
+  </p>
+
+  <h2 id="license">2. License to use</h2>
+  <p>
+    We grant you a personal, non-exclusive, non-transferable, revocable license to use our website
+    and apps for their intended purpose. This license does not permit resale, redistribution or
+    commercial exploitation without our written permission.
+  </p>
+
+  <h2 id="acceptable-use">3. Acceptable use</h2>
+  <p>You agree not to:</p>
+  <ul>
+    <li>Use our website or apps for any unlawful purpose.</li>
+    <li>Attempt to reverse engineer, decompile or tamper with our software except as permitted by law.</li>
+    <li>Interfere with or disrupt the integrity or performance of our services.</li>
+    <li>Infringe the intellectual property or other rights of {SITE.name} or third parties.</li>
+  </ul>
+
+  <h2 id="intellectual-property">4. Intellectual property</h2>
+  <p>
+    All content, branding, logos, designs and software associated with {SITE.name} are owned by us or
+    our licensors and are protected by applicable intellectual property laws. Religious and public-
+    domain texts included in our apps remain the cultural heritage they are; our compilation,
+    presentation and software remain our property.
+  </p>
+
+  <h2 id="third-party">5. Third-party content and links</h2>
+  <p>
+    Our website or apps may reference or link to third-party services (such as app stores). We are
+    not responsible for the content, policies or practices of those third parties.
+  </p>
+
+  <h2 id="disclaimer">6. Disclaimer of warranties</h2>
+  <p>
+    Our website and apps are provided "as is" and "as available" without warranties of any kind,
+    whether express or implied, including fitness for a particular purpose and non-infringement. We
+    do not warrant that the services will be uninterrupted, error-free or completely secure.
+  </p>
+
+  <h2 id="liability">7. Limitation of liability</h2>
+  <p>
+    To the fullest extent permitted by law, {SITE.name} shall not be liable for any indirect,
+    incidental, special, consequential or punitive damages arising from your use of, or inability to
+    use, our website or apps.
+  </p>
+
+  <h2 id="changes">8. Changes to these terms</h2>
+  <p>
+    We may update these Terms &amp; Conditions from time to time. Continued use of our website or
+    apps after changes take effect constitutes acceptance of the revised terms.
+  </p>
+
+  <h2 id="governing-law">9. Governing law</h2>
+  <p>
+    These terms are governed by the laws of the jurisdiction in which {SITE.name} operates, without
+    regard to conflict-of-law principles.
+  </p>
+
+  <h2 id="contact">10. Contact</h2>
+  <p>
+    Questions about these terms? Email
+    <a href={`mailto:${CONTACT.general}`}>{CONTACT.general}</a>.
+  </p>
+</LegalLayout>

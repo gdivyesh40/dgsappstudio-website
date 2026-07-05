@@ -1,0 +1,103 @@
+---
+/**
+ * Centralized <head>: meta, Open Graph, Twitter cards, canonical URL,
+ * favicons, manifest and optional JSON-LD structured data.
+ */
+import { SITE, SOCIAL } from '../consts';
+
+interface Props {
+  title: string;
+  description?: string;
+  /** Path or absolute URL to the social share image. */
+  image?: string;
+  /** Alt text for the social image (accessibility for share previews). */
+  imageAlt?: string;
+  /** Marks the page as an article for OG. */
+  type?: 'website' | 'article';
+  noindex?: boolean;
+  /** Optional JSON-LD object(s) injected as structured data. */
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[];
+}
+
+const {
+  title,
+  description = SITE.description,
+  image = SITE.ogImage,
+  imageAlt = `${SITE.name} — ${SITE.tagline}`,
+  type = 'website',
+  noindex = false,
+  jsonLd,
+} = Astro.props;
+
+// Normalize canonical URLs (strip trailing slash except for root).
+const path = Astro.url.pathname.replace(/\/+$/, '') || '/';
+const canonical = new URL(path, SITE.url).href;
+const socialImage = new URL(image, SITE.url).href;
+const imageType = socialImage.endsWith('.svg')
+  ? 'image/svg+xml'
+  : socialImage.endsWith('.png')
+    ? 'image/png'
+    : 'image/jpeg';
+const fullTitle = title === SITE.name ? title : `${title} — ${SITE.name}`;
+// TODO(launch): confirm this matches the real X/Twitter handle in consts.ts SOCIAL.x.
+const twitterHandle = '@dgsappstudio';
+const jsonLdList = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
+---
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="generator" content={Astro.generator} />
+<meta name="color-scheme" content="light dark" />
+<meta name="referrer" content="strict-origin-when-cross-origin" />
+<meta name="format-detection" content="telephone=no" />
+
+<title>{fullTitle}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonical} />
+<meta
+  name="robots"
+  content={noindex ? 'noindex, nofollow' : 'index, follow, max-image-preview:large'}
+/>
+
+<!-- Theme -->
+<meta name="theme-color" content={SITE.themeColor} media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#0b1120" media="(prefers-color-scheme: dark)" />
+
+<!-- Icons & manifest. The SVG favicon is the primary icon; add PNG variants
+     (favicon.ico, apple-touch-icon.png) to /public and link them here for
+     older platforms — see README "Placeholders to replace before launch". -->
+<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+<link rel="mask-icon" href="/favicon.svg" color={SITE.themeColor} />
+<link rel="manifest" href="/site.webmanifest" />
+
+<!-- Open Graph -->
+<meta property="og:site_name" content={SITE.name} />
+<meta property="og:type" content={type} />
+<meta property="og:title" content={fullTitle} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical} />
+<meta property="og:image" content={socialImage} />
+<meta property="og:image:type" content={imageType} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content={imageAlt} />
+<meta property="og:locale" content="en_US" />
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content={twitterHandle} />
+<meta name="twitter:creator" content={twitterHandle} />
+<meta name="twitter:title" content={fullTitle} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={socialImage} />
+<meta name="twitter:image:alt" content={imageAlt} />
+
+<link rel="sitemap" href="/sitemap-index.xml" />
+<link rel="alternate" type="application/rss+xml" title={`${SITE.name} — Apps`} href="/rss.xml" />
+<link rel="me" href={SOCIAL.github} />
+
+{
+  jsonLdList.map((entry) => (
+    <script type="application/ld+json" is:inline set:html={JSON.stringify(entry)} />
+  ))
+}

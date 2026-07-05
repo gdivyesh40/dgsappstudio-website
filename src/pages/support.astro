@@ -1,0 +1,130 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Section from '../components/Section.astro';
+import Faq from '../components/Faq.astro';
+import Button from '../components/Button.astro';
+import { CONTACT } from '../consts';
+
+const faqs = [
+  {
+    question: 'How do I get help with an app?',
+    answer:
+      'Email us at support@dgsappstudio.com with your device model, app version and a short description of the issue. We aim to respond within a couple of business days.',
+  },
+  {
+    question: 'How do I report a bug?',
+    answer:
+      'Use the "Report an issue" option below or email support@dgsappstudio.com. Screenshots and the steps to reproduce help us fix things faster.',
+  },
+  {
+    question: 'Can I request a feature?',
+    answer:
+      'Absolutely. We prioritize based on user feedback. Send your idea via the feature request option and tell us the problem you are trying to solve.',
+  },
+  {
+    question: 'Are your apps free?',
+    answer:
+      'Our current apps are free to download. If we ever introduce paid features, we will always be upfront about pricing.',
+  },
+  {
+    question: 'Do the apps work offline?',
+    answer:
+      'Yes — our apps are built offline-first. Core features keep working without an internet connection.',
+  },
+  {
+    question: 'How is my privacy handled?',
+    answer:
+      'We collect the minimum data needed to run the app. Read our privacy policies for details, or email privacy@dgsappstudio.com with questions.',
+  },
+];
+
+const channels = [
+  {
+    title: 'Contact support',
+    description: 'General help, account questions and how-to guidance.',
+    email: CONTACT.support,
+    subject: 'Support request',
+    icon: 'M4 6h16v12H4zM4 7l8 6 8-6',
+  },
+  {
+    title: 'Report an issue',
+    description: 'Found a bug or something broken? Let us know.',
+    email: CONTACT.support,
+    subject: 'Bug report',
+    icon: 'M12 9v4m0 4h.01M10.3 3.9L2 18a2 2 0 001.7 3h16.6a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z',
+  },
+  {
+    title: 'Request a feature',
+    description: 'Share an idea or improvement you would love to see.',
+    email: CONTACT.support,
+    subject: 'Feature request',
+    icon: 'M12 3l2.4 5.9L20 11l-5.6 2.1L12 19l-2.4-5.9L4 11l5.6-2.1L12 3z',
+  },
+];
+---
+
+<BaseLayout
+  title="Support"
+  description="Get help with DGS App Studio apps — FAQs, bug reports, feature requests and direct email support."
+>
+  <section class="relative overflow-hidden border-b border-app">
+    <div class="pointer-events-none absolute inset-0 bg-grid" aria-hidden="true"></div>
+    <div class="container-page relative py-16 text-center sm:py-20">
+      <p class="text-sm font-semibold uppercase tracking-wider text-brand">
+        Support
+      </p>
+      <h1 class="mx-auto mt-3 max-w-2xl text-balance text-4xl font-bold tracking-tight sm:text-5xl">
+        We are here to help
+      </h1>
+      <p class="mx-auto mt-4 max-w-2xl text-lg text-muted">
+        Browse common questions or reach out directly — we read every message.
+      </p>
+    </div>
+  </section>
+
+  <!-- Channels -->
+  <Section>
+    <div class="grid gap-6 md:grid-cols-3">
+      {
+        channels.map((c) => (
+          <div class="reveal surface-card flex flex-col p-7">
+            <div class="grid h-11 w-11 place-items-center rounded-xl bg-brand-500/10 text-brand">
+              <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d={c.icon} stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </div>
+            <h2 class="mt-5 text-lg font-semibold">{c.title}</h2>
+            <p class="mt-2 flex-1 text-sm text-muted">{c.description}</p>
+            <a
+              href={`mailto:${c.email}?subject=${encodeURIComponent(c.subject)}`}
+              class="mt-5 text-sm font-medium text-brand hover:text-brand-700 dark:text-brand-400"
+            >
+              {c.email} →
+            </a>
+          </div>
+        ))
+      }
+    </div>
+  </Section>
+
+  <!-- FAQ -->
+  <Section surface eyebrow="FAQ" title="Frequently asked questions">
+    <div class="mx-auto max-w-3xl">
+      <Faq items={faqs} />
+    </div>
+  </Section>
+
+  <!-- Email support -->
+  <Section>
+    <div class="reveal mx-auto max-w-2xl rounded-4xl border border-app bg-app-surface p-10 text-center">
+      <h2 class="text-2xl font-bold tracking-tight">Still need help?</h2>
+      <p class="mx-auto mt-3 max-w-md text-muted">
+        Send us an email and we will get back to you as soon as we can.
+      </p>
+      <div class="mt-6 flex flex-wrap justify-center gap-3">
+        <Button href={`mailto:${CONTACT.support}`} size="lg">Email support</Button>
+        <Button href="/contact" size="lg" variant="secondary">Use contact form</Button>
+      </div>
+    </div>
+  </Section>
+</BaseLayout>

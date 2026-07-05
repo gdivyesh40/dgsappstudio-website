@@ -1,0 +1,73 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Section from '../../components/Section.astro';
+import AppCard from '../../components/AppCard.astro';
+import Cta from '../../components/Cta.astro';
+import { getApps } from '../../lib/apps';
+
+const apps = await getApps();
+
+// Roadmap categories to show what the studio is building toward, merged with
+// any categories that already exist across published apps.
+const declared = ['Religion & Lifestyle', 'Utilities', 'Productivity', 'Festivals', 'Greetings'];
+const categories = Array.from(
+  new Set([...apps.flatMap((a) => a.data.categories), ...declared]),
+);
+---
+
+<BaseLayout
+  title="Apps"
+  description="Explore the mobile apps built by DGS App Studio — starting with Dharma Path, with many more on the way."
+>
+  <!-- Header -->
+  <section class="relative overflow-hidden border-b border-app">
+    <div class="pointer-events-none absolute inset-0 bg-grid" aria-hidden="true"></div>
+    <div class="container-page relative py-16 text-center sm:py-20">
+      <p class="text-sm font-semibold uppercase tracking-wider text-brand">
+        Our apps
+      </p>
+      <h1 class="mx-auto mt-3 max-w-3xl text-balance text-4xl font-bold tracking-tight sm:text-5xl">
+        A growing family of thoughtful mobile apps
+      </h1>
+      <p class="mx-auto mt-4 max-w-2xl text-lg text-muted">
+        We are just getting started. Dharma Path is first — with festival apps, calendars, utilities,
+        productivity tools and greeting apps on the roadmap.
+      </p>
+    </div>
+  </section>
+
+  <Section>
+    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {apps.map((app) => <AppCard app={app} />)}
+
+      <!-- Roadmap / coming later placeholder -->
+      <div
+        class="reveal flex flex-col items-center justify-center rounded-3xl border-2 border-dashed border-app p-8 text-center"
+      >
+        <div class="grid h-14 w-14 place-items-center rounded-2xl bg-[var(--surface-2)]">
+          <svg class="h-7 w-7 text-muted" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+          </svg>
+        </div>
+        <h3 class="mt-4 text-lg font-semibold">More apps on the way</h3>
+        <p class="mt-2 text-sm text-muted">
+          Festival, calendar, utility, productivity and greeting card apps are in the pipeline.
+        </p>
+      </div>
+    </div>
+  </Section>
+
+  <Section surface eyebrow="Categories" title="What we are building toward" align="center">
+    <div class="reveal flex flex-wrap justify-center gap-3">
+      {
+        categories.map((c) => (
+          <span class="rounded-full border border-app bg-[var(--bg)] px-4 py-2 text-sm font-medium text-muted shadow-soft">
+            {c}
+          </span>
+        ))
+      }
+    </div>
+  </Section>
+
+  <Cta title="Want to be notified at launch?" />
+</BaseLayout>

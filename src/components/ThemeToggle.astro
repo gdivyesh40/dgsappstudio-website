@@ -1,0 +1,30 @@
+---
+/** Light/dark toggle. Theme is applied inline in <head> to avoid a flash. */
+---
+
+<button
+  id="theme-toggle"
+  type="button"
+  class="grid h-9 w-9 place-items-center rounded-full border border-app text-[var(--text)] transition-colors hover:bg-[var(--surface-2)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500"
+  aria-label="Toggle color theme"
+>
+  <svg class="h-[18px] w-[18px] hidden dark:block" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+    <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.6" />
+    <path d="M12 2v2M12 20v2M4 12H2M22 12h-2M5 5l1.5 1.5M17.5 17.5L19 19M19 5l-1.5 1.5M6.5 17.5L5 19" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+  </svg>
+  <svg class="h-[18px] w-[18px] block dark:hidden" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+    <path d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" />
+  </svg>
+</button>
+
+<script>
+  const toggle = document.getElementById('theme-toggle');
+  toggle?.addEventListener('click', () => {
+    const isDark = document.documentElement.classList.toggle('dark');
+    try {
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    } catch {
+      /* storage unavailable — ignore */
+    }
+  });
+</script>
