@@ -24,9 +24,9 @@ export const SITE = {
 // TODO(launch): these mailboxes must exist and be monitored before launch.
 // They are published on the site and submitted to Google Play. See GOOGLE_PLAY_SETUP.md.
 export const CONTACT = {
-  support: 'support@dgsappstudio.com',
-  privacy: 'privacy@dgsappstudio.com',
-  general: 'contact@dgsappstudio.com',
+  support: 'gdivyesh40@gmail.com',
+  privacy: 'gdivyesh40@gmail.com',
+  general: 'gdivyesh40@gmail.com',
 } as const;
 
 // TODO(launch): create these accounts (or remove the links) before launch — the

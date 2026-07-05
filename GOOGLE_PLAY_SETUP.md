@@ -17,7 +17,7 @@ Play Console → your app → **Grow → Store presence → Store listing** (and
 | **Website URL** | `https://dgsappstudio.com` | `SITE.url` |
 | **App / store listing website** (per app) | `https://dgsappstudio.com/apps/dharma-path` | app slug |
 | **Privacy policy URL** | `https://dgsappstudio.com/privacy/dharma-path` | app `privacyUrl` |
-| **Support email** | `support@dgsappstudio.com` | `CONTACT.support` |
+| **Support email** | `gdivyesh40@gmail.com` | `CONTACT.support` |
 | **Support website** (optional) | `https://dgsappstudio.com/support` | `/support` |
 
 > Per-app privacy policy is preferred over the generic `/privacy` hub — Google wants a policy that
@@ -52,7 +52,7 @@ Checklist for the Data safety form:
 - [ ] For each data type: **collected? shared? ephemeral? required or optional?**
 - [ ] **Is data encrypted in transit?** — yes for any network calls (HTTPS).
 - [ ] **Can users request deletion?** — the policy explains clearing app data / uninstalling; provide
-      `privacy@dgsappstudio.com` as the contact.
+      `gdivyesh40@gmail.com` as the contact.
 - [ ] Confirm the **privacy policy URL** on this form matches the store listing.
 
 > **Rule of thumb:** if you later add analytics, ads (AdMob), or any network feature, update BOTH the
@@ -80,6 +80,6 @@ Website:        https://dgsappstudio.com
 App page:       https://dgsappstudio.com/apps/dharma-path
 Privacy policy: https://dgsappstudio.com/privacy/dharma-path
 Support page:   https://dgsappstudio.com/support
-Support email:  support@dgsappstudio.com
-Privacy email:  privacy@dgsappstudio.com
+Support email:  gdivyesh40@gmail.com
+Privacy email:  gdivyesh40@gmail.com
 ```
