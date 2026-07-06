@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Section from '../../components/Section.astro';
+import AppIcon from '../../components/AppIcon.astro';
 import { getApps } from '../../lib/apps';
 import { SITE, CONTACT } from '../../consts';
 
@@ -58,14 +59,7 @@ const appsWithPolicy = apps.filter((a) => Boolean(a.data.privacyUrl));
             href={app.data.privacyUrl}
             class="reveal surface-card group flex items-center gap-4 p-6 transition-all hover:-translate-y-0.5 hover:shadow-soft-lg"
           >
-            <div
-              class="grid h-12 w-12 place-items-center rounded-xl shadow-soft"
-              style={`background: linear-gradient(135deg, ${app.data.accent.from}, ${app.data.accent.to});`}
-            >
-              <svg class="h-6 w-6 text-white" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                <path d={app.data.icon} />
-              </svg>
-            </div>
+            <AppIcon app={app.data} class="h-12 w-12 rounded-xl shadow-soft" iconClass="h-6 w-6 text-white" pixels={48} />
             <div class="flex-1">
               <h3 class="font-semibold">{app.data.title} Privacy Policy</h3>
               <p class="text-sm text-muted">{app.data.categories[0]}</p>

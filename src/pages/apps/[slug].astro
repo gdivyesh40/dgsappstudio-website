@@ -6,6 +6,7 @@ import FeatureCard from '../../components/FeatureCard.astro';
 import Faq from '../../components/Faq.astro';
 import Button from '../../components/Button.astro';
 import { getApps, STATUS_LABEL, primaryCategory } from '../../lib/apps';
+import AppIcon from '../../components/AppIcon.astro';
 import { SITE } from '../../consts';
 
 // One page per app in the collection — add a Markdown file, get a page.
@@ -83,14 +84,7 @@ const jsonLd = [appJsonLd, breadcrumbJsonLd, ...(faqJsonLd ? [faqJsonLd] : [])];
       <div class="mt-6 grid items-center gap-12 lg:grid-cols-2">
         <div>
           <div class="flex items-center gap-4">
-            <div
-              class="grid h-16 w-16 place-items-center rounded-2xl shadow-soft-lg"
-              style={`background: linear-gradient(135deg, ${data.accent.from}, ${data.accent.to});`}
-            >
-              <svg class="h-8 w-8 text-white" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                <path d={data.icon} />
-              </svg>
-            </div>
+            <AppIcon app={data} class="h-16 w-16 rounded-2xl shadow-soft-lg" iconClass="h-8 w-8 text-white" pixels={64} eager />
             <span class="rounded-full bg-brand-500/10 px-3 py-1 text-xs font-medium text-brand">
               {STATUS_LABEL[data.status]}
             </span>
@@ -132,14 +126,7 @@ const jsonLd = [appJsonLd, breadcrumbJsonLd, ...(faqJsonLd ? [faqJsonLd] : [])];
                 <div class="aspect-[9/19] w-40 shrink-0 snap-center overflow-hidden rounded-3xl border border-app bg-gradient-to-b from-ink-900 to-ink-800 p-2 shadow-soft-lg sm:w-44">
                   <div class="flex h-full flex-col rounded-2xl bg-white/5 p-3">
                     <div class="mx-auto mb-3 h-1.5 w-10 rounded-full bg-white/20" />
-                    <div
-                      class="grid h-10 w-10 place-items-center rounded-xl"
-                      style={`background: linear-gradient(135deg, ${data.accent.from}, ${data.accent.to});`}
-                    >
-                      <svg class="h-5 w-5 text-white" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                        <path d={data.icon} />
-                      </svg>
-                    </div>
+                    <AppIcon app={data} class="h-10 w-10 rounded-xl" iconClass="h-5 w-5 text-white" pixels={40} />
                     <div class="mt-3 space-y-2">
                       <div class="h-2 w-3/4 rounded-full bg-white/15" />
                       <div class="h-2 w-full rounded-full bg-white/10" />

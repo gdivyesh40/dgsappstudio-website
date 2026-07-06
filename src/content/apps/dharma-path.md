@@ -6,6 +6,7 @@ description: >-
   Daily Panchang — beautifully organized and available offline.
 
 icon: M12 3l2.4 5.9L20 11l-5.6 2.1L12 19l-2.4-5.9L4 11l5.6-2.1L12 3z
+iconImage: /icons/dharma-path.png
 accent:
   from: '#F59E0B'
   to: '#D97706'

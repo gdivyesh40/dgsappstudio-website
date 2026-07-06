@@ -1,0 +1,53 @@
+---
+/**
+ * Renders an app icon. Prefers a real image (`iconImage`) rendered edge-to-edge
+ * in a rounded box; otherwise falls back to the SVG `icon` path on the app's
+ * accent gradient. Used by cards, detail hero, screenshots and the privacy hub.
+ */
+interface Props {
+  /** Minimal shape from a collection entry's `data`. */
+  app: {
+    title: string;
+    icon: string;
+    iconImage?: string;
+    accent: { from: string; to: string };
+  };
+  /** Classes for the icon box (size, rounding, shadow). */
+  class?: string;
+  /** Classes for the inner SVG (size + color) when falling back to the path icon. */
+  iconClass?: string;
+  /** Rendered pixel size hint for the <img> (helps CLS). */
+  pixels?: number;
+  eager?: boolean;
+}
+const {
+  app,
+  class: className = '',
+  iconClass = 'h-7 w-7 text-white',
+  pixels = 96,
+  eager = false,
+} = Astro.props;
+---
+
+{
+  app.iconImage ? (
+    <img
+      src={app.iconImage}
+      alt={`${app.title} app icon`}
+      width={pixels}
+      height={pixels}
+      loading={eager ? 'eager' : 'lazy'}
+      decoding="async"
+      class:list={['object-cover', className]}
+    />
+  ) : (
+    <div
+      class:list={['grid place-items-center', className]}
+      style={`background: linear-gradient(135deg, ${app.accent.from}, ${app.accent.to});`}
+    >
+      <svg class={iconClass} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d={app.icon} />
+      </svg>
+    </div>
+  )
+}

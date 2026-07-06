@@ -3,6 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Section from '../components/Section.astro';
 import FeatureCard from '../components/FeatureCard.astro';
 import AppCard from '../components/AppCard.astro';
+import AppIcon from '../components/AppIcon.astro';
 import Button from '../components/Button.astro';
 import Cta from '../components/Cta.astro';
 import { getFeaturedApp } from '../lib/apps';
@@ -123,14 +124,7 @@ const technologies = [
               class="rounded-2xl bg-gradient-to-br from-ink-900 to-ink-800 p-6 text-left"
             >
               <div class="flex items-center gap-3">
-                <div
-                  class="grid h-12 w-12 place-items-center rounded-xl"
-                  style={`background: linear-gradient(135deg, ${featuredApp.data.accent.from}, ${featuredApp.data.accent.to});`}
-                >
-                  <svg class="h-6 w-6 text-white" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                    <path d={featuredApp.data.icon} />
-                  </svg>
-                </div>
+                <AppIcon app={featuredApp.data} class="h-12 w-12 rounded-xl" iconClass="h-6 w-6 text-white" pixels={48} eager />
                 <div>
                   <p class="font-semibold text-white">{featuredApp.data.title}</p>
                   <p class="text-xs text-ink-400">{featuredApp.data.categories[0]}</p>

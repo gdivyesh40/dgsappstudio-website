@@ -18,8 +18,10 @@ const apps = defineCollection({
     description: z.string(),
 
     // Media / branding
-    /** SVG path data on a 24×24 viewBox used as the app icon. */
+    /** SVG path data on a 24×24 viewBox used as the app icon (fallback when no `iconImage`). */
     icon: z.string(),
+    /** Path to a square PNG/WebP app icon (e.g. /icons/<slug>.png). Preferred over `icon`. */
+    iconImage: z.string().optional(),
     accent: z
       .object({ from: z.string(), to: z.string() })
       .default({ from: '#F59E0B', to: '#D97706' }),
