@@ -2,13 +2,20 @@
 import LegalLayout from '../../layouts/LegalLayout.astro';
 import { CONTACT, SITE } from '../../consts';
 
-const updated = 'July 5, 2026';
+const updated = 'July 9, 2026';
 const toc = [
   { id: 'overview', label: 'Overview' },
   { id: 'data-we-collect', label: 'Data we collect' },
   { id: 'how-we-use-data', label: 'How we use data' },
+  { id: 'advertising', label: 'Advertising & AdMob' },
+  { id: 'advertising-id', label: 'Advertising ID' },
+  { id: 'location', label: 'Location' },
+  { id: 'notifications', label: 'Notifications & alarms' },
+  { id: 'in-app-updates', label: 'In-app updates' },
+  { id: 'network', label: 'Network usage' },
   { id: 'permissions', label: 'Permissions' },
   { id: 'third-parties', label: 'Third-party services' },
+  { id: 'data-safety', label: 'Google Play Data Safety' },
   { id: 'data-storage', label: 'Data storage & security' },
   { id: 'childrens-privacy', label: "Children's privacy" },
   { id: 'your-rights', label: 'Your rights' },
@@ -19,7 +26,7 @@ const toc = [
 
 <LegalLayout
   title="Dharma Path Privacy Policy"
-  description="Privacy policy for the Dharma Path Android application by DGS App Studio."
+  description="Privacy policy for the Dharma Path Android application by DGS App Studio, covering Google AdMob, the Advertising ID, approximate location and data safety."
   updated={updated}
   intro="How the Dharma Path app handles your information."
   toc={toc}
@@ -28,71 +35,175 @@ const toc = [
   <p>
     This Privacy Policy explains how {SITE.name} ("we", "us") handles information in connection with
     the Dharma Path mobile application ("the App"). Dharma Path is designed to be offline-first and
-    privacy-respecting: it works primarily on your device and collects as little data as possible.
+    privacy-respecting: the devotional content and Panchang calculations work on your device. The App
+    does not require an account and does not store your personal data on our servers. The App does,
+    however, display advertising through Google AdMob, which involves the limited data collection
+    described below.
   </p>
 
   <h2 id="data-we-collect">Data we collect</h2>
   <p>Dharma Path is built to minimize data collection. Specifically:</p>
   <ul>
-    <li><strong>Content you read and bookmark</strong> is stored locally on your device and is not transmitted to us.</li>
-    <li><strong>App preferences</strong> (such as language, text size and theme) are stored locally on your device.</li>
-    <li>
-      <strong>Basic diagnostic and usage data</strong> may be collected in aggregated, anonymized
-      form to help us fix crashes and improve the App, only if analytics are enabled (see
-      Third-party services).
-    </li>
+    <li><strong>Content you read, bookmark and favorite</strong> is stored locally on your device and is not transmitted to us.</li>
+    <li><strong>App preferences</strong> (such as language, text size, theme and your selected city) are stored locally on your device using Room, DataStore and SharedPreferences.</li>
+    <li><strong>Advertising identifier and limited device information</strong> are collected and processed by Google AdMob to serve ads (see <a href="#advertising">Advertising & AdMob</a>).</li>
+    <li><strong>Approximate location</strong> may be used, only with your permission, to compute Panchang timings on your device (see <a href="#location">Location</a>).</li>
   </ul>
-  <p>We do not require you to create an account, and we do not collect your name, contact details or precise location.</p>
+  <p>
+    We do not require you to create an account, and we do not collect your name, contact details or
+    precise (GPS) location. We do not operate servers that store your personal data, and we do not
+    use crash-reporting or analytics SDKs (no Firebase, Crashlytics or third-party analytics are
+    integrated into the App).
+  </p>
 
   <h2 id="how-we-use-data">How we use data</h2>
-  <p>Any limited data we process is used only to:</p>
+  <p>Any limited data processed is used only to:</p>
   <ul>
     <li>Operate the App and remember your preferences on your device.</li>
-    <li>Diagnose crashes and technical problems.</li>
-    <li>Understand aggregate usage trends to prioritize improvements.</li>
+    <li>Display advertising through Google AdMob so we can offer the App for free.</li>
+    <li>Compute Panchang timings locally when you enable approximate location.</li>
+    <li>Check for App updates through Google Play.</li>
   </ul>
-  <p>We do not sell your personal information, and we do not use it for advertising profiles.</p>
+  <p>We do not sell your personal information.</p>
+
+  <h2 id="advertising">Advertising &amp; AdMob</h2>
+  <p>
+    Dharma Path is free and supported by advertising. The App displays banner ads and native ads using
+    <strong>Google AdMob</strong>, a Google advertising service. To serve these ads, Google may collect
+    and process your device's <strong>Advertising ID</strong> and limited device information (such as
+    device type, coarse network information and ad interaction data). Where applicable and permitted by
+    your settings, ads may be <strong>personalized</strong> based on this information; otherwise
+    non-personalized ads are served.
+  </p>
+  <p>
+    Google's handling of this data is governed by Google's own policies. For details, see
+    <a href="https://policies.google.com/technologies/ads" target="_blank" rel="noopener noreferrer">Google's advertising policy</a>
+    and
+    <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Google's Privacy Policy</a>.
+  </p>
+
+  <h2 id="advertising-id">Advertising ID</h2>
+  <p>
+    The App uses the Google Advertising ID (the <code>AD_ID</code> permission) for advertising. This means:
+  </p>
+  <ul>
+    <li>Your device's <strong>Advertising ID is collected</strong> to enable ad serving and measurement.</li>
+    <li>The Advertising ID is <strong>shared with Google</strong> (AdMob) for advertising purposes.</li>
+  </ul>
+  <p>
+    You can reset or delete your Advertising ID at any time from your device's Google settings
+    ("Ads" section), which limits ad personalization.
+  </p>
+
+  <h2 id="location">Location</h2>
+  <p>
+    Approximate (city-level) location is <strong>optional</strong>. If you grant the permission, it is used
+    <strong>only to calculate Panchang information</strong> (such as sunrise and tithi timings) on your device.
+    You are never required to enable location: the App provides a full <strong>manual city selection</strong>
+    alternative. Location data is <strong>processed locally on your device</strong>, is not shared with third
+    parties, and is not stored on our servers. The App requests only <em>approximate</em> location
+    (<code>ACCESS_COARSE_LOCATION</code>) and does not request precise/GPS location.
+  </p>
+
+  <h2 id="notifications">Notifications &amp; exact alarms</h2>
+  <p>
+    With your permission, the App sends local notifications on your device, including:
+  </p>
+  <ul>
+    <li><strong>Daily Quote</strong> notifications delivered at a set time each day.</li>
+    <li><strong>Ekadashi reminders</strong> for upcoming observance days.</li>
+  </ul>
+  <p>
+    These notifications are generated locally on your device and are not sent from a server. To deliver them at
+    the correct time even when the App is closed, on supported Android versions (Android 12+) the App may use the
+    <strong>exact alarm</strong> permission (<code>SCHEDULE_EXACT_ALARM</code>). On Android 13+ you will be asked to
+    allow notifications, and you can decline or revoke either permission at any time in your device settings.
+  </p>
+
+  <h2 id="in-app-updates">Google Play In-App Updates</h2>
+  <p>
+    The App uses <strong>Google Play In-App Updates</strong> to prompt you when a newer version is available
+    through the Google Play Store. This update process is handled by Google Play services. <strong>DharmaPath
+    does not collect any personal data</strong> during this process; any data involved is handled by Google Play
+    under Google's own policies.
+  </p>
+
+  <h2 id="network">Network usage</h2>
+  <p>The App requires internet access only for:</p>
+  <ul>
+    <li>Serving <strong>advertising</strong> (Google AdMob).</li>
+    <li>Checking for <strong>App updates</strong> via Google Play.</li>
+  </ul>
+  <p>
+    The core devotional content and Panchang calculations work <strong>offline</strong> and do not require a
+    network connection.
+  </p>
 
   <h2 id="permissions">Permissions</h2>
-  <p>
-    Dharma Path requests only the permissions necessary for its features. Where the App needs a
-    permission (for example, notifications for festival reminders), it will ask for it in context,
-    and you can decline or revoke it at any time in your device settings.
-  </p>
+  <p>Dharma Path requests only the permissions necessary for its features:</p>
+  <ul>
+    <li><strong>Internet / network state</strong> — to serve ads and check for updates.</li>
+    <li><strong>Notifications</strong> — to deliver Daily Quote and Ekadashi reminders (Android 13+).</li>
+    <li><strong>Exact alarm</strong> — to deliver reminders at a precise time (Android 12+).</li>
+    <li><strong>Approximate location</strong> — optional, for Panchang calculations.</li>
+    <li><strong>Advertising ID</strong> — used by Google AdMob for advertising.</li>
+    <li><strong>Receive boot completed</strong> — to re-arm reminders after the device restarts.</li>
+  </ul>
+  <p>Where a permission is optional, you can decline or revoke it at any time in your device settings.</p>
 
   <h2 id="third-parties">Third-party services</h2>
   <p>
-    We may use reputable third-party services for crash reporting and anonymized analytics (for
-    example, Google Play services). These providers process limited technical data under their own
-    privacy policies. If and when such services are enabled, they are configured to avoid collecting
-    personally identifying information wherever possible.
+    The App integrates the following Google services, each governed by its own privacy policy:
+  </p>
+  <ul>
+    <li><strong>Google AdMob</strong> — advertising (collects and processes the Advertising ID and limited device data).</li>
+    <li><strong>Google Play services</strong> and <strong>Google Play In-App Updates</strong> — update delivery and platform services.</li>
+  </ul>
+  <p>
+    We do not integrate Firebase, Crashlytics or any third-party analytics SDK, and we do not maintain
+    server-side user accounts or cloud storage of your personal data.
   </p>
 
-  <h2 id="data-storage">Data storage & security</h2>
+  <h2 id="data-safety">Google Play Data Safety</h2>
+  <p>Consistent with our Google Play Data Safety declaration, the App handles the following data:</p>
+  <ul>
+    <li>
+      <strong>Device or other IDs (Advertising ID)</strong> — <em>Collected</em> and <em>Shared</em>.
+      Purpose: <strong>Advertising</strong>.
+    </li>
+    <li>
+      <strong>Approximate location</strong> — <em>Collected</em>, <em>not shared</em>.
+      Purpose: <strong>App functionality</strong> (Panchang). Optional.
+    </li>
+  </ul>
+
+  <h2 id="data-storage">Data storage &amp; security</h2>
   <p>
-    Your reading history, bookmarks and preferences remain on your device. We apply reasonable
-    technical and organizational measures to protect any data we do handle. No method of storage or
-    transmission is completely secure, but we work to safeguard your information.
+    Your reading history, bookmarks, favorites and preferences remain on your device. We do not store your
+    personal data on our servers. We apply reasonable technical and organizational measures to protect any
+    data we do handle. No method of storage or transmission is completely secure, but we work to safeguard
+    your information.
   </p>
 
   <h2 id="childrens-privacy">Children's privacy</h2>
   <p>
-    Dharma Path is suitable for a general audience and does not knowingly collect personal
-    information from children. If you believe a child has provided us personal information, please
-    contact us so we can address it.
+    Dharma Path is suitable for a general audience and does not knowingly collect personal information from
+    children. If you believe a child has provided us personal information, please contact us so we can
+    address it.
   </p>
 
   <h2 id="your-rights">Your rights</h2>
   <p>
-    Because most data stays on your device, you can clear it at any time by clearing the App's data
-    or uninstalling the App. For any request regarding data we may hold, contact us and we will
+    Because most data stays on your device, you can clear it at any time by clearing the App's data or
+    uninstalling the App. You can reset or delete your Advertising ID and revoke location and notification
+    permissions in your device settings. For any request regarding data we may hold, contact us and we will
     respond in line with applicable law.
   </p>
 
   <h2 id="changes">Changes to this policy</h2>
   <p>
-    We may update this Privacy Policy as the App evolves. We will revise the "Last updated" date
-    above and, where appropriate, notify you within the App.
+    We may update this Privacy Policy as the App evolves. We will revise the "Last updated" date above and,
+    where appropriate, notify you within the App.
   </p>
 
   <h2 id="contact">Contact</h2>

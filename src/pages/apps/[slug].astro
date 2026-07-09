@@ -21,12 +21,6 @@ const { Content } = await app.render();
 
 const dateFmt = new Intl.DateTimeFormat('en', { dateStyle: 'medium' });
 
-const roadmapStatusLabel: Record<string, string> = {
-  planned: 'Planned',
-  'in-progress': 'In progress',
-  shipped: 'Shipped',
-};
-
 // --- Structured data, generated automatically from the collection entry ---
 const appJsonLd = {
   '@context': 'https://schema.org',
@@ -217,37 +211,6 @@ const jsonLd = [appJsonLd, breadcrumbJsonLd, ...(faqJsonLd ? [faqJsonLd] : [])];
       </div>
     </div>
   </Section>
-
-  <!-- Roadmap -->
-  {
-    data.roadmap.length > 0 && (
-      <Section surface eyebrow="Roadmap" title="Where we are headed" subtitle="Our plans for future releases — priorities may shift based on your feedback.">
-        <ol class="relative mx-auto max-w-2xl border-l border-app">
-          {data.roadmap.map((r) => (
-            <li class="reveal mb-8 ml-6">
-              <span
-                class:list={[
-                  'absolute -left-2.5 mt-1.5 h-5 w-5 rounded-full border-4 border-[var(--bg)]',
-                  r.status === 'shipped'
-                    ? 'bg-emerald-500'
-                    : r.status === 'in-progress'
-                      ? 'bg-brand-500'
-                      : 'bg-ink-300 dark:bg-ink-600',
-                ]}
-              />
-              <div class="flex flex-wrap items-center gap-2">
-                <h3 class="text-base font-semibold">{r.title}</h3>
-                <span class="rounded-full bg-[var(--surface-2)] px-2.5 py-0.5 text-xs font-medium text-muted">
-                  {roadmapStatusLabel[r.status]}
-                </span>
-              </div>
-              <p class="mt-1 text-sm text-muted">{r.description}</p>
-            </li>
-          ))}
-        </ol>
-      </Section>
-    )
-  }
 
   <!-- Changelog -->
   {
