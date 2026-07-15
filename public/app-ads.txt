@@ -10,3 +10,4 @@
 # f08c47fec0942fa0. See ADMOB_SETUP.md for the full walkthrough.
 #
 # google.com, pub-0000000000000000, DIRECT, f08c47fec0942fa0
+google.com, pub-8806035089470487, DIRECT, f08c47fec0942fa0
